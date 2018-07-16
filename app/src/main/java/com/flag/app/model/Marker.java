@@ -49,10 +49,9 @@ public class Marker implements Parcelable, ClusterItem {
     }
 
     /*Це поле необхідно для Android, щоб мати можливість створювати нові об'єкти,
-    окремо або в масивах. Це також означає, що ви можете використовувати за замовчуванням*/
+    окремо або в масивах. Це також означає, що ви можете використовувати за замовчуванням */
     public static final Creator<Marker> CREATOR = new Creator<Marker>() {
         @Override
-
         public Marker createFromParcel(Parcel in) {return new Marker(in);
         }
 

@@ -34,7 +34,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class MarkerActivity extends AppCompatActivity {
@@ -60,8 +59,12 @@ public class MarkerActivity extends AppCompatActivity {
     private static final int PAGE_START = 0;
     private boolean isLoading = false;
     private boolean isLastPage = false;
-    private int TOTAL_PAGES = 3;
+    private int TOTAL_PAGES = 0;
     private int currentPage = PAGE_START;
+    private int downloaded = 0;
+
+    private String oldestID;
+    private String newestID;
 
 
     public static Intent getStartIntent(Context context, User user) {
@@ -70,41 +73,17 @@ public class MarkerActivity extends AppCompatActivity {
         return intent;
     }
 
-    private final ValueEventListener mValueEventListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            mMarkers = new ArrayList<>();
-            Iterable<DataSnapshot> snapshotIterator = dataSnapshot.getChildren();
-            Iterator<DataSnapshot> iterator = snapshotIterator.iterator();
-            int i=0;
-            while (i<10) {
-                i++;
-                Marker marker = iterator.next().getValue(Marker.class);
-                mMarkers.add(marker);
-                loadFirstPage();
-            }
-            //mMarkerAdapter.refreshMarkers(mMarkers);
-            //mRecyclerView.setVisibility(View.VISIBLE);
-            //mProgressBar.setVisibility(View.GONE);
-        }
 
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-            Log.d(TAG, databaseError.toString());
-
-        }
-    } ;
 
     @Override
     protected void onStart() {
         super.onStart();
-        mDatabaseReference.addValueEventListener(mValueEventListener);
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mDatabaseReference.removeEventListener(mValueEventListener);
     }
 
     //Викликає метод Main Activity
@@ -147,9 +126,12 @@ public class MarkerActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         mMarkerAdapter = new MarkerAdapter(this);
 
+
+
         mRecyclerView.addOnScrollListener(new PaginationScrollListener(layoutManager) {
             @Override
             protected void loadMoreItems() {
+                Log.i(TAG, "OnScrollThread");
                 isLoading = true;
                 currentPage += 1;
 
@@ -158,6 +140,7 @@ public class MarkerActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         loadNextPage();
+                        Log.i(TAG, "loadNextPage");
                     }
                 }, 1000);
             }
@@ -176,7 +159,15 @@ public class MarkerActivity extends AppCompatActivity {
             public boolean isLoading() {
                 return isLoading;
             }
+
         });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadFirstPage();
+            }
+        }, 1000);
 
 //        mMarkerAdapter.setOnItemClickListener(new MarkerAdapter.OnItemClickListener() {
 //            @Override
@@ -189,26 +180,59 @@ public class MarkerActivity extends AppCompatActivity {
     }
 
     private void loadFirstPage() {
-        Log.d(TAG, "loadFirstPage: ");
+        Log.i(TAG, "loadFirstPage: ");
 
-        mProgressBar.setVisibility(View.GONE);
-        mMarkerAdapter.refreshMarkers(mMarkers);
+        mDatabaseReference.limitToFirst(5).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mMarkers = new ArrayList<>();
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    Marker marker = child.getValue(Marker.class);
+                    mMarkers.add(marker);
+                    oldestID = child.getKey();
+                }
+                mProgressBar.setVisibility(View.GONE);
+                mMarkerAdapter.refreshMarkers(mMarkers);
+                mMarkerAdapter.addLoadingFooter();
+            }
 
-        if (currentPage <= TOTAL_PAGES) mMarkerAdapter.addLoadingFooter();
-        else isLastPage = true;
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
 
     }
 
     private void loadNextPage() {
-        Log.d(TAG, "loadNextPage: " + currentPage);
+        Log.i(TAG, "loadNextPage: " + currentPage);
+        Log.i(TAG, "ID="+oldestID);
+        oldestID +=1;
+        mDatabaseReference.orderByKey().startAt(oldestID).limitToFirst(5).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.i(TAG, "DATACHANGE");
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    Log.i(TAG, "dataSnap");
+                    System.out.println("here AFTER data added==>>" + child.getKey());
+                    Marker marker = child.getValue(Marker.class);
+                    mMarkers.add(marker);
+                    oldestID = child.getKey();
+                    Log.i(TAG, "ID2="+oldestID);
+                }
+                mMarkerAdapter.removeLoadingFooter();
+                isLoading = false;
+                mMarkerAdapter.refreshMarkers(mMarkers);
+                mMarkerAdapter.addLoadingFooter();
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-        mMarkerAdapter.refreshMarkers(mMarkers);
-        mMarkerAdapter.removeLoadingFooter();
-        isLoading = false;
-
-        if (currentPage != TOTAL_PAGES) mMarkerAdapter.addLoadingFooter();
-        else isLastPage = true;
+            }
+        });
     }
 
 }

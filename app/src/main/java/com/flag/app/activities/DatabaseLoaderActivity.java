@@ -56,7 +56,7 @@ public class DatabaseLoaderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_database_loader);
-
+        userRef.limitToFirst(10);
         Intent intent = getIntent();
         marker = (MarkerOptions) Objects.requireNonNull(intent.getExtras()).get("marker");
 

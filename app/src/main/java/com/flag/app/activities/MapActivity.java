@@ -8,7 +8,6 @@ package com.flag.app.activities;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -22,8 +21,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-
 import com.flag.app.R;
+import com.flag.app.model.Location;
+import com.flag.app.model.Marker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,15 +31,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import net.sharewire.googlemapsclustering.Cluster;
 import net.sharewire.googlemapsclustering.ClusterManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.flag.app.model.Location;
-import com.flag.app.model.Marker;
 
 /**
  * A styled map using JSON styles from a raw resource.
@@ -205,24 +203,6 @@ public class MapActivity extends AppCompatActivity
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 12));
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
-                builder.setTitle("Confirm")
-                        .setMessage("Do you really want to add a marker?")
-                        .setCancelable(false)
-                        .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent(MapActivity.this, DatabaseLoaderActivity.class);
-                                intent.putExtra("marker", marker);
-                                startActivity(intent);
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                mMap.clear();
-                                dialogInterface.cancel();
-                            }
-                        });
                 AlertDialog dialog = builder.create();
                 dialog.show();
 
