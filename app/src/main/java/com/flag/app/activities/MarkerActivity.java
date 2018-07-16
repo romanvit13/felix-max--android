@@ -39,24 +39,16 @@ import java.util.List;
 public class MarkerActivity extends AppCompatActivity {
 
     private static final String TAG = "MarkerActivity";
-
-    User mUser;
-
     private static final String EXTRA_USER = "EXTRA_USER";
-
-    private DatabaseReference mDatabaseReference;
+    private static final int PAGE_START = 0;
+    User mUser;
     CallbackManager callbackManager;
-
-    private FloatingActionButton mMapButton;
-
-    private MarkerAdapter mMarkerAdapter;
-
-    private List<Marker> mMarkers;
-
     RecyclerView mRecyclerView;
     ProgressBar mProgressBar;
-
-    private static final int PAGE_START = 0;
+    private DatabaseReference mDatabaseReference;
+    private FloatingActionButton mMapButton;
+    private MarkerAdapter mMarkerAdapter;
+    private List<Marker> mMarkers;
     private boolean isLoading = false;
     private boolean isLastPage = false;
     private int TOTAL_PAGES = 0;
@@ -68,11 +60,10 @@ public class MarkerActivity extends AppCompatActivity {
 
 
     public static Intent getStartIntent(Context context, User user) {
-        Intent intent = new Intent(context,MarkerActivity.class);
+        Intent intent = new Intent(context, MarkerActivity.class);
         intent.putExtra(EXTRA_USER, user);
         return intent;
     }
-
 
 
     @Override
@@ -104,7 +95,7 @@ public class MarkerActivity extends AppCompatActivity {
                 new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         mUser = getIntent().getParcelableExtra(EXTRA_USER);
 
-        Toast.makeText(MarkerActivity.this,"Вітаємо, "+
+        Toast.makeText(MarkerActivity.this, "Вітаємо, " +
                 UserPref.get(MarkerActivity.this).getUser().getName(), Toast.LENGTH_SHORT).show();
 
         callbackManager = CallbackManager.Factory.create();
@@ -118,14 +109,12 @@ public class MarkerActivity extends AppCompatActivity {
         });
 
 
-
         mRecyclerView = findViewById(R.id.recycler_view);
         mProgressBar = findViewById(R.id.main_progress);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(mRecyclerView.getContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mMarkerAdapter = new MarkerAdapter(this);
-
 
 
         mRecyclerView.addOnScrollListener(new PaginationScrollListener(layoutManager) {
@@ -203,13 +192,10 @@ public class MarkerActivity extends AppCompatActivity {
         });
 
 
-
     }
 
     private void loadNextPage() {
-        Log.i(TAG, "loadNextPage: " + currentPage);
-        Log.i(TAG, "ID="+oldestID);
-        oldestID +=1;
+        oldestID = String.valueOf(Integer.parseInt(oldestID) + 1);
         mDatabaseReference.orderByKey().startAt(oldestID).limitToFirst(5).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -220,7 +206,7 @@ public class MarkerActivity extends AppCompatActivity {
                     Marker marker = child.getValue(Marker.class);
                     mMarkers.add(marker);
                     oldestID = child.getKey();
-                    Log.i(TAG, "ID2="+oldestID);
+                    Log.i(TAG, "ID2=" + oldestID);
                 }
                 mMarkerAdapter.removeLoadingFooter();
                 isLoading = false;
