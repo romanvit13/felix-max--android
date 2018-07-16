@@ -1,4 +1,4 @@
-package com.flag.app;
+package com.flag.app.activities;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.flag.app.R;
+import com.flag.app.model.Image;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,8 +29,6 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.Objects;
-
-import model.Image;
 
 public class DatabaseLoaderActivity extends AppCompatActivity {
     private final int PICK_IMAGE = 1;

@@ -1,4 +1,4 @@
-package com.flag.app;
+package com.flag.app.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,13 +6,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.flag.app.R;
 import com.squareup.picasso.Picasso;
 
-import model.Marker;
+import com.flag.app.model.Marker;
 
 /**c
  * Created by Marvin on 2/16/2018.

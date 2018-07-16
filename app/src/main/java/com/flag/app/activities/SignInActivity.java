@@ -1,4 +1,4 @@
-package com.flag.app;
+package com.flag.app.activities;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -24,6 +24,8 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.flag.app.R;
+import com.flag.app.User;
 import com.flag.app.instagramSignIn.ApplicationData;
 import com.flag.app.instagramSignIn.AuthenticationDialog;
 import com.flag.app.instagramSignIn.AuthenticationListener;
@@ -32,7 +34,6 @@ import com.flag.app.instagramSignIn.InstagramHelper;
 import com.flag.app.instagramSignIn.InstagramResponse;
 import com.flag.app.instagramSignIn.InstagramUser;
 import com.flag.app.pref.UserPref;
-import com.flag.app.view.MarkerActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

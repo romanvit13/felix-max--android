@@ -5,5 +5,5 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.flag.app.MapActivity"
+    tools:context="com.flag.app.activities.MapActivity"
     map:cameraZoom="10" />

@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.flag.app.view.MarkerActivity">
+    tools:context="com.flag.app.activities.MarkerActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        >
+        android:background="@android:color/transparent">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -24,27 +23,19 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <ViewSwitcher
-        android:id="@+id/view_switcher"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        android:scrollbars="vertical"
+        tools:listitem="@layout/item_marker" />
 
 
-        <ProgressBar
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            tools:listitem="@layout/item_marker" />
-
-    </ViewSwitcher>
+    <ProgressBar
+        android:id="@+id/main_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/map_button"
@@ -54,7 +45,6 @@
         android:src="@drawable/ic_map_black_24dp"
         android:visibility="gone"
         app:fabSize="normal"
-        app:layout_anchor="@id/view_switcher"
         app:layout_anchorGravity="bottom|right|end"
         app:useCompatPadding="true" />
 

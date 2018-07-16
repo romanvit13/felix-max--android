@@ -18,24 +18,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity">
+        <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignInActivity"
+        <activity android:name=".activities.SignInActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
-        <activity android:name=".MapActivity"
+        <activity android:name=".activities.MapActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".view.MarkerActivity"
+        <activity android:name=".activities.MarkerActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
-        <activity android:name=".MarkerDetailsActivity" />
+        <activity android:name=".activities.MarkerDetailsActivity" />
 
 
         <!-- Maps Android Key -->
@@ -43,7 +43,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCPW0JWaZG7wrh3hygRmywzB_MENQEn_Pg" />
 
-        <activity android:name=".DatabaseLoaderActivity" />
+        <activity android:name=".activities.DatabaseLoaderActivity" />
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             tools:replace="android:value"

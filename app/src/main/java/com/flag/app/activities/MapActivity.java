@@ -1,4 +1,4 @@
-package com.flag.app;
+package com.flag.app.activities;
 
 /**
  * Created by Marvin on 2/11/2018.
@@ -21,27 +21,25 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 
+import com.flag.app.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import net.sharewire.googlemapsclustering.Cluster;
-import net.sharewire.googlemapsclustering.ClusterItem;
 import net.sharewire.googlemapsclustering.ClusterManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Location;
-import model.Marker;
+import com.flag.app.model.Location;
+import com.flag.app.model.Marker;
 
 /**
  * A styled map using JSON styles from a raw resource.

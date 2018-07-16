@@ -1,4 +1,4 @@
-package model;
+package com.flag.app.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,9 +7,6 @@ import android.support.annotation.Nullable;
 
 
 import net.sharewire.googlemapsclustering.ClusterItem;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Marvin on 2/16/2018.
