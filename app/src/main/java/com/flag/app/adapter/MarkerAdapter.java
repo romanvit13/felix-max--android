@@ -89,10 +89,6 @@ public class MarkerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch (getItemViewType(position)) {
             case ITEM:
                 MarkerVH markerVH = (MarkerVH) holder;
-                markerVH.mAuthorTextView.setText(marker.getLocation().getAuthor());
-                Picasso.with(markerVH.mImageView.getContext())
-                        .load(marker.getImage().getUrl())
-                        .placeholder(R.color.grey_400).into(markerVH.mImageView);
                 markerVH.bindMarker(marker);
                 break;
             case LOADING:
@@ -213,11 +209,14 @@ public class MarkerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             mMarker = marker;
             mNameTextView = itemView.findViewById(R.id.text_view_name1);
             mNameTextView.setText(mMarker.getName());
-//            mAuthorTextView.setText(mMarker.getLocation().getAuthor());
-//            Picasso.with(mImageView.getContext())
-//                    .load(mMarker.getImage().getUrl())
-//                    .placeholder(R.color.grey_400)
-//                    .into(mImageView);
+            mAuthorTextView.setText(mMarker.getLocation().getAuthor());
+            Picasso.with(mImageView.getContext())
+                    .load(marker.getImage().getUrl())
+                    .resize(650, 350)
+                    .onlyScaleDown()
+                    .centerCrop()
+                    .placeholder(R.color.grey_400)
+                    .into(mImageView);
         }
 
         private void loadImageFromStorage(int i) {

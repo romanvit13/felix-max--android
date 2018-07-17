@@ -36,21 +36,13 @@ public class MarkerDetailsActivity extends AppCompatActivity {
 
 
     ImageView mImageView;
-
     TextView mNameTextView;
-
     TextView mAuthorTextView;
-
     TextView mDateTextView;
-
     TextView mDescriptionTextView;
-
-    MapView mMapView;
-
-    private GoogleMap mGoogleMap;
-
     Marker mMarker;
-
+    MapView mMapView;
+    private GoogleMap mGoogleMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +86,7 @@ public class MarkerDetailsActivity extends AppCompatActivity {
                 googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng latLng) {
-                        startActivity(MapActivity.getStartIntent(MarkerDetailsActivity.this, mMarker));
+                        startActivity(MarkerMapActivity.getStartIntent(MarkerDetailsActivity.this, mMarker));
                     }
                 });
 

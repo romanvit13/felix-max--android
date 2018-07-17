@@ -31,7 +31,9 @@
         <activity android:name=".activities.MapActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
-
+        <activity android:name=".activities.MarkerMapActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activities.MarkerActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>

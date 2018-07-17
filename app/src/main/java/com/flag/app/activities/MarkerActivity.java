@@ -163,13 +163,17 @@ public class MarkerActivity extends AppCompatActivity {
             }
         });
         mRecyclerView.setAdapter(mMarkerAdapter);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemViewCacheSize(20);
+        mRecyclerView.setDrawingCacheEnabled(true);
+        mRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_LOW);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("markers");
     }
 
     private void loadFirstPage() {
         Log.i(TAG, "loadFirstPage: ");
 
-        mDatabaseReference.limitToFirst(5).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabaseReference.limitToFirst(8).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mMarkers = new ArrayList<>();
