@@ -100,11 +100,24 @@
                 tools:text="Description"
                 android:textAppearance="?android:textAppearanceMedium"/>
 
+            <TextView
+                android:id="@+id/text_view_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/blue_a400"
+                android:drawableLeft="@drawable/ic_place_blue_a400_alpha_24dp"
+                android:drawablePadding="8dp"
+                tools:text="Місцезнаходження точки" />
+
             <com.google.android.gms.maps.MapView
                 android:id="@+id/map_view"
                 android:layout_height="250dp"
                 android:layout_width="match_parent"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                >
 
 
             </com.google.android.gms.maps.MapView>

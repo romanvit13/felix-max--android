@@ -89,7 +89,7 @@ public class MarkerDetailsActivity extends AppCompatActivity {
 
                 // For zooming automatically to the location of the marker
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(markerPosition).zoom(16).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
                 googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
@@ -101,6 +101,12 @@ public class MarkerDetailsActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        mMapView.onResume();
+        super.onResume();
     }
 
     private void bindMarker(Marker marker) {
