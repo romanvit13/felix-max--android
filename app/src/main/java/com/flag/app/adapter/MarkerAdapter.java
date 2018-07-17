@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +36,22 @@ public class MarkerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public MarkerAdapter(Context context) {
         this.context = context;
         mMarkers = new ArrayList<>();
+    }
+
+
+
+
+
+
+
+    public interface OnItemClickListener {
+        void onItemClick(Marker marker);
+    }
+
+    private OnItemClickListener mOnItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
     }
 
     public List<Marker> getMarkers() {
@@ -169,6 +184,8 @@ public class MarkerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
 
+
+
    /*
    View Holders
    _________________________________________________________________________________________________
@@ -185,20 +202,18 @@ public class MarkerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         private Marker mMarker;
 
-        public MarkerVH(View itemView) {
+        public MarkerVH(final View itemView) {
 
             super(itemView);
             mImageView = itemView.findViewById(R.id.photo_image_view);
-            mNameTextView = (TextView) itemView.findViewById(R.id.text_view_name1);
-            mAuthorTextView = (TextView) itemView.findViewById(R.id.text_view_author);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    if (mOnItemClickListener != null) {
-//                        mOnItemClickListener.onItemClick(mMarker);
-//                    }
-//                }
-//            });
+            mNameTextView = itemView.findViewById(R.id.text_view_name1);
+            mAuthorTextView = itemView.findViewById(R.id.text_view_author);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mOnItemClickListener.onItemClick(mMarker);
+                }
+            });
         }
 
         void bindMarker(Marker marker) {
@@ -228,12 +243,6 @@ public class MarkerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public LoadingVH(View itemView) {
             super(itemView);
         }
-    }
-
-    private AdapterView.OnItemClickListener mOnItemClickListener;
-
-    public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
-        mOnItemClickListener = onItemClickListener;
     }
 
 

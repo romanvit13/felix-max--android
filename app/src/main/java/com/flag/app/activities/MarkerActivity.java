@@ -158,12 +158,12 @@ public class MarkerActivity extends AppCompatActivity {
             }
         }, 1000);
 
-//        mMarkerAdapter.setOnItemClickListener(new MarkerAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(Marker marker) {
-//                startActivity(MarkerDetailsActivity.getStartIntent(MarkerActivity.this, marker));
-//            }
-//        });
+        mMarkerAdapter.setOnItemClickListener(new MarkerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Marker marker) {
+                startActivity(MarkerDetailsActivity.getStartIntent(MarkerActivity.this, marker));
+            }
+        });
         mRecyclerView.setAdapter(mMarkerAdapter);
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("markers");
     }
@@ -220,5 +220,4 @@ public class MarkerActivity extends AppCompatActivity {
             }
         });
     }
-
 }
