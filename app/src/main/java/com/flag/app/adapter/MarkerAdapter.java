@@ -37,13 +37,6 @@ public class MarkerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.context = context;
         mMarkers = new ArrayList<>();
     }
-
-
-
-
-
-
-
     public interface OnItemClickListener {
         void onItemClick(Marker marker);
     }

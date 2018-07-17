@@ -18,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.flag.app.PaginationScrollListener;
@@ -26,7 +25,6 @@ import com.flag.app.R;
 import com.flag.app.User;
 import com.flag.app.adapter.MarkerAdapter;
 import com.flag.app.model.Marker;
-import com.flag.app.pref.UserPref;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -95,8 +93,8 @@ public class MarkerActivity extends AppCompatActivity {
                 new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         mUser = getIntent().getParcelableExtra(EXTRA_USER);
 
-        Toast.makeText(MarkerActivity.this, "Вітаємо, " +
-                UserPref.get(MarkerActivity.this).getUser().getName(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MarkerActivity.this, "Вітаємо, " +
+//                UserPref.get(MarkerActivity.this).getUser().getName(), Toast.LENGTH_SHORT).show();
 
         callbackManager = CallbackManager.Factory.create();
 

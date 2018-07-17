@@ -6,7 +6,6 @@ package com.flag.app.activities;
 
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -28,6 +27,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -49,15 +49,23 @@ public class MapActivity extends AppCompatActivity
     private static final String TAG = MapActivity.class.getSimpleName();
     private LocationManager locationManager;
     private GoogleMap mMap;
+    private Marker mMarker;
 
 
     private static final String EXTRA_MARKER_LIST = "EXTRA_MARKER_LIST";
+    private static final String EXTRA_MARKER = "EXTRA_MARKER";
 
     public static Intent getStartIntent(Context context, List<Marker> markerList) {
         Intent startIntent = new Intent(context, MapActivity.class);
         startIntent.putParcelableArrayListExtra(
-                EXTRA_MARKER_LIST, new ArrayList<Marker>(markerList));
+                EXTRA_MARKER_LIST, new ArrayList<>(markerList));
 
+        return startIntent;
+    }
+
+    public static Intent getStartIntent(Context context, Marker marker){
+        Intent startIntent = new Intent(context, MapActivity.class);
+        startIntent.putExtra(EXTRA_MARKER, marker);
         return startIntent;
     }
 
@@ -175,6 +183,7 @@ public class MapActivity extends AppCompatActivity
      */
     @Override
     public void onMapReady(final GoogleMap googleMap) {
+        mMarker = getIntent().getParcelableExtra(EXTRA_MARKER);
         mMap = googleMap;
         LatLng lviv = new LatLng(49.838, 24.029);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lviv, 12));
@@ -192,23 +201,34 @@ public class MapActivity extends AppCompatActivity
         });
         googleMap.setOnCameraIdleListener(clusterManager);
 
+        double lat = mMarker.location.lat;
+        double lng = mMarker.location.lng;
+        String title = mMarker.getTitle();
+        String desc = mMarker.description;
 
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                final MarkerOptions marker = new MarkerOptions().position(
-                        new LatLng(latLng.latitude, latLng.longitude)).title("New Marker");
+        LatLng markerPosition = new LatLng(lat, lng);
+        googleMap.addMarker(new MarkerOptions().position(markerPosition).title(title).snippet(desc));
+        // For zooming automatically to the location of the marker
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(markerPosition).zoom(16).build();
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 12));
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
-                AlertDialog dialog = builder.create();
-                dialog.show();
-
-                mMap.addMarker(marker);
-            }
-        });
+//        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//            @Override
+//            public void onMapClick(LatLng latLng) {
+//                final MarkerOptions marker = new MarkerOptions().position(
+//                        new LatLng(latLng.latitude, latLng.longitude)).title("New Marker");
+//
+//
+//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 12));
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
+//                AlertDialog dialog = builder.create();
+//                dialog.show();
+//
+//                mMap.addMarker(marker);
+//            }
+//        });
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling

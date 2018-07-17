@@ -10,9 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.flag.app.R;
-import com.squareup.picasso.Picasso;
-
 import com.flag.app.model.Marker;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
 
 /**c
  * Created by Marvin on 2/16/2018.
@@ -38,6 +45,10 @@ public class MarkerDetailsActivity extends AppCompatActivity {
 
     TextView mDescriptionTextView;
 
+    MapView mMapView;
+
+    private GoogleMap mGoogleMap;
+
     Marker mMarker;
 
 
@@ -46,8 +57,6 @@ public class MarkerDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_marker);
         mMarker = getIntent().getParcelableExtra(EXTRA_MARKER);
-
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(mMarker.getName());
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -62,7 +71,36 @@ public class MarkerDetailsActivity extends AppCompatActivity {
         mAuthorTextView = findViewById(R.id.text_view_author);
         mDateTextView = findViewById(R.id.text_view_date);
         mDescriptionTextView = findViewById(R.id.text_view_description);
+        mMapView = findViewById(R.id.map_view);
+        mMapView.onCreate(savedInstanceState);
         bindMarker(mMarker);
+        mMapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                mGoogleMap = googleMap;
+                // For dropping a marker at a point on the Map
+                double lat = mMarker.location.lat;
+                double lng = mMarker.location.lng;
+                String title = mMarker.getTitle();
+                String desc = mMarker.description;
+
+                LatLng markerPosition = new LatLng(lat, lng);
+                googleMap.addMarker(new MarkerOptions().position(markerPosition).title(title).snippet(desc));
+
+                // For zooming automatically to the location of the marker
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(markerPosition).zoom(16).build();
+                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
+                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng latLng) {
+                        startActivity(MapActivity.getStartIntent(MarkerDetailsActivity.this, mMarker));
+                    }
+                });
+
+
+            }
+        });
     }
 
     private void bindMarker(Marker marker) {
@@ -74,5 +112,7 @@ public class MarkerDetailsActivity extends AppCompatActivity {
         mDateTextView.setText(marker.getDate());
 
     }
+
+
 }
 

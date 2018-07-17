@@ -82,10 +82,10 @@ public class SignInActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-//        if (((FelixApplication) this.getApplication()).getFirstStart() == 1){
-//            Intent intent = new Intent(SignInActivity.this, MarkerActivity.class);
-//            startActivity(intent);
-//        }
+        /*if (((FelixApplication) this.getApplication()).getFirstStart() == 1){*/
+            Intent intent = new Intent(SignInActivity.this, MarkerActivity.class);
+            startActivity(intent);
+
         Log.d("KEY HASH --->", printKeyHash(this));
         mInstagramApp = new InstagramApp(this, ApplicationData.CLIENT_ID,
                 ApplicationData.CLIENT_SECRET, ApplicationData.CALLBACK_URL);
