@@ -212,7 +212,7 @@ public class MarkerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             mAuthorTextView.setText(mMarker.getLocation().getAuthor());
             Picasso.with(mImageView.getContext())
                     .load(marker.getImage().getUrl())
-                    .resize(650, 350)
+                    .resize(450, 250)
                     .onlyScaleDown()
                     .centerCrop()
                     .placeholder(R.color.grey_400)
